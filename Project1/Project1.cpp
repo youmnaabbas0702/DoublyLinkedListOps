@@ -6,6 +6,7 @@ int main()
 {
     clsDblLinkedList<int> MydblLinkedList;
 
+    cout << "is linked list empty?: " << MydblLinkedList.IsEmpty() << endl;
     MydblLinkedList.InsertAtBeginning(5);
     MydblLinkedList.InsertAtBeginning(6);
     MydblLinkedList.InsertAtBeginning(2);
@@ -42,5 +43,46 @@ int main()
     
     MydblLinkedList.DeleteLastNode();
     cout << "After deleting last Node:\n";
+    MydblLinkedList.PrintList();
+
+    cout << "Size of the linked list: " << MydblLinkedList.Size() << endl;
+    cout << "is linked list empty?: " << MydblLinkedList.IsEmpty() << endl;
+
+    /*MydblLinkedList.Clear();
+    cout << "After clear, size = " << MydblLinkedList.Size();*/
+
+    MydblLinkedList.Reverse();
+    cout << "After reverse: \n";
+    MydblLinkedList.PrintList();
+
+    cout << MydblLinkedList.head->Value << endl;
+
+    clsDblLinkedList<int>::Node* N2 = MydblLinkedList.Find(500);
+
+    MydblLinkedList.InsertAfter(N2, 300);
+    cout << "After inserting 300 after 500:\n";
+    MydblLinkedList.PrintList();
+
+    MydblLinkedList.Clear();
+    MydblLinkedList.InsertAtBeginning(70);
+
+    clsDblLinkedList<int>::Node* N3 = MydblLinkedList.GetNode(0);
+    cout << "Node value: " << N3->Value << endl;
+
+    cout << "Item(3): " << MydblLinkedList.GetItem(3) << endl;
+
+    MydblLinkedList.InsertAtBeginning(60);
+    MydblLinkedList.InsertAtBeginning(40);
+    MydblLinkedList.InsertAtBeginning(20);
+
+    MydblLinkedList.UpdateItem(3, 10);
+    MydblLinkedList.UpdateItem(2, 10);
+    MydblLinkedList.UpdateItem(1, 10);
+    MydblLinkedList.UpdateItem(0, 10);
+
+    MydblLinkedList.PrintList();
+
+    MydblLinkedList.InsertAfter(2, 40);
+    cout << "\n\nAfter insert:\n\n";
     MydblLinkedList.PrintList();
 }

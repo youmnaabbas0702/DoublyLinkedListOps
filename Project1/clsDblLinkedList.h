@@ -4,6 +4,10 @@ using namespace std;
 
 template<class T> class clsDblLinkedList
 {
+protected:
+
+	int _Size = 0;
+
 public:
 	class Node
 	{
@@ -13,8 +17,25 @@ public:
 		Node* Prev;
 	};
 
-public:
 	Node* head = NULL;
+
+	int Size()
+	{
+		return _Size;
+	}
+
+	bool IsEmpty()
+	{
+		return _Size == 0;
+	}
+
+	void Clear()
+	{
+		while (head != NULL)
+		{
+			DeleteFirstNode();
+		}
+	}
 
 	void PrintList()
 	{
@@ -36,12 +57,14 @@ public:
 		{
 			newNode->Next = NULL;
 			head = newNode;
+			_Size++;
 			return;
 		}
 
 		head->Prev = newNode;
 		newNode->Next = head;
 		head = newNode;
+		_Size++;
 	}
 
 	Node* Find(T value)
@@ -74,6 +97,7 @@ public:
 			NodeAfter->Next->Prev = newNode;
 
 		NodeAfter->Next = newNode;
+		_Size++;
 	}
 
 	void InsertAtEnd(T value)
@@ -100,6 +124,7 @@ public:
 			newNode->Prev = searchNode;
 			searchNode->Next = newNode;
 		}
+		_Size++;
 	}
 
 	void DeleteNode(Node*& NodeToDelete) 
@@ -117,6 +142,7 @@ public:
 			NodeToDelete->Prev->Next = NodeToDelete->Next;
 		}
 		delete NodeToDelete;
+		_Size--;
 	}
 
 	void DeleteFirstNode()
@@ -132,6 +158,7 @@ public:
 		head = Current->Next;
 
 		delete Current;
+		_Size--;
 	}
 
 	void DeleteLastNode()
@@ -160,7 +187,87 @@ public:
 
 		Prev->Next = NULL;
 		delete Current;
+		_Size--;
 	}
 
+	void Reverse()
+	{
+		if (head == NULL || head->Next == NULL)
+			return;
+
+		do
+		{
+			Node* temp = head->Next;
+			head->Next = head->Prev;
+			head->Prev = temp;
+
+			if(head->Prev != NULL)
+				head = head->Prev;
+
+		} while (head->Prev != NULL);
+	}
+
+	/*void  Reverse()
+	{
+		Node* current = head;
+		Node* temp = nullptr;
+		while (current != nullptr) {
+			temp = current->prev;
+			current->prev = current->next;
+			current->next = temp;
+			current = current->prev;
+		}
+
+		if (temp != nullptr) {
+			head = temp->prev;
+		}
+	}*/
+
+	Node* GetNode(int Index)
+	{
+		if (Index > _Size - 1 || Index < 0 || head == NULL)
+			return NULL;
+
+		Node* Current = head;
+		int i = 0;
+		while (i < Index && Current->Next != NULL)
+		{
+			Current = Current->Next;
+			i++;
+		}
+		return Current;
+	}
+
+	T GetItem(int Index)
+	{
+		Node* node = GetNode(Index);
+		if(node != NULL)
+			return node->Value;
+		return NULL;
+	}
+
+	bool UpdateItem(int Index, T newValue)
+	{
+		Node* node = GetNode(Index);
+		if (node != NULL)
+		{
+			node->Value = newValue;
+			return true;
+		}
+		else
+			return false;
+	}
+
+	bool InsertAfter(int Index, T value)
+	{
+		Node* node = GetNode(Index);
+		if (node != NULL)
+		{
+			InsertAfter(node, value);
+			return true;
+		}
+		else
+			return false;
+	}
 };
 
